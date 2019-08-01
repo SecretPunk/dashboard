@@ -1,4 +1,4 @@
-/* Shared Styles */
+/* SHARED STYLES */
 
 body {
   background-color: #000;
@@ -7,8 +7,8 @@ body {
   font-family: "Calibri", sans-serif;
   font-size: 1.1rem;
   grid-gap: 10px;
-  grid-template-columns: 3fr 2fr; /* NOTE THIS DOWN */
-  grid-template-areas: 'mainHeader mainHeader' 'left-side right-side';
+  grid-template-columns: 3fr 2fr;
+  grid-template-areas: 'mainHeader mainHeader' 'leftSide rightSide';
   padding: 1% 3%;
 }
 
@@ -30,27 +30,16 @@ body {
 .content-body {
   background-color: lightblue;
   max-height: 0;
-  transition: max-height 500ms linear;
-}
-
-.content-body > * {
-  opacity: 0;
-  transition: opacity 400ms ease;
+  overflow: hidden; /* to stop the text from showing even when content-body is at zero height */
+  transition: max-height 500ms ease-out;
 }
 
 .full-height {
   max-height: 1000px; /* arbitrary, as transitions need numbers to work */
-  transition: max-height 500ms linear;
+  transition: max-height 500ms ease-out;
 }
 
-.shown-content {
-  opacity: 1;
-  transition: opacity 400ms ease;
-}
-
-
-
-/* Main Header */
+/* MAIN HEADER */
 
 header {
   background-color: #90ff90;
@@ -61,26 +50,30 @@ header {
   text-align: center;
 }
 
-/* Politics */
+/* LEFT SIDE */
 
+.left-side {
+  grid-area: leftSide;
+}
 
-/* Weather */
+/* RIGHT SIDE */
+
+.right-side {
+  grid-area: rightSide;
+}
 
 .weather {
   margin-bottom: 10px;
 }
 
-/* Tasks */
-
-
-/* Media Queries */
+/* MEDIA QUERIES */
 
 @media only screen and (max-width: 800px) {
 
   body {
     grid-template-columns: auto;
     grid-template-areas: 'mainHeader'
-                         'left-side'
-                         'right-side';
+                         'leftSide'
+                         'rightSide';
   }
 }
