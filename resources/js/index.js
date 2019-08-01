@@ -10,6 +10,7 @@ var numContentHeadings = contentHeadings.length;
 for (var i = 0; i < numContentHeadings; i++) {
   contentHeadings[i].addEventListener("click", function() {
 
-    this.parentNode.querySelector(".content-body").classList.toggle("content-show");
+    this.parentNode.querySelector(".content-body").classList.toggle("full-height");
+    this.parentNode.querySelector(".content-body > *").classList.toggle("shown-content");
   });
 }
