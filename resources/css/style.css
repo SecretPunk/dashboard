@@ -9,7 +9,10 @@ body {
   grid-gap: 10px;
   grid-template-columns: 3fr 2fr;
   grid-template-areas: 'mainHeader mainHeader' 'leftSide rightSide';
+  opacity: 0; /* will become 1 on page load */
   padding: 1% 3%;
+  position: relative;
+  top: -100px; /* will become 0 on page load */
 }
 
 .content-heading {
@@ -31,12 +34,18 @@ body {
   background-color: lightblue;
   max-height: 0;
   overflow: hidden; /* to stop the text from showing even when content-body is at zero height */
-  transition: max-height 500ms ease-out;
+  transition: max-height 600ms ease-out;
 }
 
 .full-height {
-  max-height: 1000px; /* arbitrary, as transitions need numbers to work */
-  transition: max-height 500ms ease-out;
+  max-height: 1000px; /* arbitrary, as transition needs numbers to work */
+  transition: max-height 600ms ease-in;
+}
+
+.into-position {
+  opacity: 1;
+  top: 0;
+  transition: all 600ms ease;
 }
 
 /* MAIN HEADER */
