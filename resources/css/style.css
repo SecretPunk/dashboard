@@ -3,8 +3,8 @@
 body {
   color: #171717;
   display: grid;
-  font-family: "Calibri", sans-serif;
-  font-size: 1.1rem;
+  font-family: "Helvetica", sans-serif;
+  font-size: 1.5rem;
   grid-gap: 10px;
   grid-template-columns: 3fr 2fr;
   grid-template-areas: 'mainHeader mainHeader' 'leftSide rightSide';
@@ -33,6 +33,11 @@ body {
   max-height: 0;
   overflow: hidden; /* to stop the text from showing even when content-body is at zero height */
   transition: max-height 500ms ease-out;
+}
+
+.content-body p {
+  border-bottom: 1px solid green;
+  padding: 30px 40px;
 }
 
 .full-height {
