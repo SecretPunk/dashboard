@@ -6,7 +6,7 @@
 'use strict';
 
 // Guardian API
-const G_ENDPOINT = "http://content.guardianapis.com/search?";
+const G_ENDPOINT = "https://content.guardianapis.com/search?";
 const G_SEARCH_TERM = "q=politics";
 const G_SECTION = "section=australia-news";
 const G_ORDER_BY = "order-by=newest";

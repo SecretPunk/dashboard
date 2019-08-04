@@ -29,14 +29,14 @@ body {
 }
 
 .content-body {
-  background-color: lightgrey;
+  background-color: #eed;
   max-height: 0;
   overflow: hidden; /* to stop the text from showing even when content-body is at zero height */
   transition: max-height 500ms ease-out;
 }
 
 .content-body p {
-  border-bottom: 1px solid green;
+  border-bottom: 1px solid #10cc10;
   padding: 30px 40px;
 }
 
