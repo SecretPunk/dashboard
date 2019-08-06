@@ -73,8 +73,8 @@ header {
 }
 
 .politics a:hover {
-  background-color: #bfb;
-  color: #175017;
+  background-color: #afa;
+  color: #105010;
   transition: all 200ms ease;
 }
 
@@ -86,6 +86,10 @@ header {
 
 .weather {
   margin-bottom: 10px;
+}
+
+.weather p {
+  padding: 10px;
 }
 
 /* MEDIA QUERIES */
