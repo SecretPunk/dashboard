@@ -50,13 +50,13 @@ function getPolitics() {
 
   request.onload = function() {
     var parsedResponse = JSON.parse(this.response);
-    console.log(parsedResponse);
 
     var contentBody = document.querySelector(".politics .content-body");
     for (var i = 0; i < G_NUM_RESULTS; i++) {
-      var newPara = document.createElement("p");
-      newPara.innerHTML = parsedResponse.response.results[i].webTitle;
-      contentBody.appendChild(newPara);
+      var newAnchor = document.createElement("a");
+      newAnchor.setAttribute("href", parsedResponse.response.results[i].webUrl);
+      newAnchor.innerHTML = parsedResponse.response.results[i].webTitle;
+      contentBody.appendChild(newAnchor);
     }
   };
 }
