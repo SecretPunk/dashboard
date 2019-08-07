@@ -4,7 +4,7 @@ body {
   color: #171717;
   display: grid;
   font-family: "Poppins", sans-serif;
-  font-size: 1.5rem;
+  font-size: 1.3rem;
   grid-gap: 10px;
   grid-template-columns: 3fr 2fr;
   grid-template-areas: 'mainHeader mainHeader' 'leftSide rightSide';
@@ -72,6 +72,14 @@ header {
   text-decoration: none;
 }
 
+.politics a:nth-child(2n+1) {
+  background-color: lightgreen;
+}
+
+.politics a:nth-child(2n+2) {
+  background-color: lightyellow;
+}
+
 .politics a:hover {
   background-color: #afa;
   color: #105010;
@@ -89,7 +97,18 @@ header {
 }
 
 .weather p {
-  padding: 10px;
+  align-items: center;
+  display: grid;
+  grid-template-columns: 1fr 2fr 1fr 5fr;
+  padding-left: 40px; /* to match padding on politics section */
+}
+
+.weather p:nth-child(2n+1) {
+  background-color: lightyellow;
+}
+
+.weather p:nth-child(2n+2) {
+  background-color: lightgreen;
 }
 
 /* MEDIA QUERIES */

@@ -22,6 +22,7 @@ const W_API_KEY = "appid=649156a9240a1ebacc8e6395876a40ea";
 const W_UNITS = "units=metric"; // to output temperatures in Celsius (default is Kelvin)
 const W_URL = W_ENDPOINT + W_CITY_ID + "&" + W_API_KEY + "&" + W_UNITS;
 const W_NUM_RESULTS = 8; // api gives 5-day, 3-hourly, forecasts (40 in total). Just use the first 8 (covers 24 hours).
+const W_ICON_URL = "https://openweathermap.org/img/wn/";
 
 window.onload = function() {
 
@@ -32,6 +33,8 @@ window.onload = function() {
   getPolitics(); // get politics news from Guardian API and insert into politics section
 
   getWeather(); // get weather data from OpenWeatherMap API and insert into weather section
+
+  getTasks(); // get tasks data from Google API and insert into tasks section
 };
 
 function setToggles() {
@@ -80,18 +83,44 @@ function getWeather() {
 
   request.onload = function() {
     var parsedResponse = JSON.parse(this.response);
-    console.log(parsedResponse);
 
     var contentBody = document.querySelector(".weather .content-body");
 
     for (var i = 0; i < W_NUM_RESULTS; i++) {
-      var newForecast = document.createElement("p");
-      console.log(parsedResponse.list);
-      var icon = parsedResponse.list[i].weather[0].icon + ".png";
-      console.log(icon);
+
+      var oneEntry = document.createElement("p");
+
+      // time
+      var dateStamp = parsedResponse.list[i].dt * 1000;
+      var time = new Date(dateStamp).toTimeString().slice(0, 5);
+      var newTime = document.createElement("span");
+      newTime.innerHTML = time;
+      oneEntry.appendChild(newTime);
+
+      // icon
+      var icon = parsedResponse.list[i].weather[0].icon + "@2x.png";
+      var newImage = document.createElement("img");
+      newImage.setAttribute("src", W_ICON_URL + icon);
+      oneEntry.appendChild(newImage);
+
+      // temperature
       var temp = parsedResponse.list[i].main.temp;
-      newForecast.innerHTML = parsedResponse.list[i].weather[0].description + " " + temp;
-      contentBody.appendChild(newForecast);
+      var newForecast = document.createElement("span");
+      newForecast.innerHTML = Math.round(parseFloat(temp));
+      oneEntry.appendChild(newForecast);
+
+      // conditions
+      var conditions = parsedResponse.list[i].weather[0].description;
+      var newConditions = document.createElement("span");
+      newConditions.innerHTML = conditions;
+      oneEntry.appendChild(newConditions);
+
+      // put entry into content body
+      contentBody.appendChild(oneEntry);
     }
   };
+}
+
+function getTasks() {
+
 }
