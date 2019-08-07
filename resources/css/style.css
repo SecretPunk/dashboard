@@ -108,12 +108,17 @@ header {
   width: 75px; /* the 2x icon is 100px, a bit too big. */
 }
 
-.weather p:nth-child(2n+1) {
+.weather p:nth-child(2n+1), .tasks p:nth-child(2n+1) {
   background-color: #ffb;
 }
 
-.weather p:nth-child(2n+2) {
+.weather p:nth-child(2n+2), .tasks p:nth-child(2n+2) {
   background-color: #cfc;
+}
+
+.tasks p {
+  border-bottom: 1px solid #10cc10;
+  padding: 30px; /* to match padding on other sections */
 }
 
 /* MEDIA QUERIES */

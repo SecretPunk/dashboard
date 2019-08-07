@@ -7,7 +7,7 @@
 
 // Guardian API
 const G_ENDPOINT = "https://content.guardianapis.com/search?";
-const G_SEARCH_TERM = "q=politics";
+const G_SEARCH_TERM = "q=australia-politics";
 const G_SECTION = "section=australia-news";
 const G_ORDER_BY = "order-by=newest";
 const G_NUM_RESULTS = 10;
@@ -23,6 +23,11 @@ const W_UNITS = "units=metric"; // to output temperatures in Celsius (default is
 const W_URL = W_ENDPOINT + W_CITY_ID + "&" + W_API_KEY + "&" + W_UNITS;
 const W_NUM_RESULTS = 8; // api gives 5-day, 3-hourly, forecasts (40 in total). Just use the first 8 (covers 24 hours).
 const W_ICON_URL = "https://openweathermap.org/img/wn/";
+
+// Google Sheets JSON URL
+const T_SPREADSHEET_ID = "1ePMu0ChJHWYFV9_jvT8o4ER_H1DnmeRcyH7K-uHF8Mc";
+const T_WORKSHEET_ID = "od6";
+const T_URL = "https://spreadsheets.google.com/feeds/list/" + T_SPREADSHEET_ID + "/" + T_WORKSHEET_ID + "/public/values?alt=json";
 
 window.onload = function() {
 
@@ -123,4 +128,22 @@ function getWeather() {
 
 function getTasks() {
 
+  var request = new XMLHttpRequest();
+  request.open('GET', T_URL, true);
+  request.send();
+
+  var contentBody = document.querySelector(".tasks .content-body");
+
+  request.onload = function() {
+
+    var parsedResponse = JSON.parse(this.response);
+    var numTasks = parsedResponse.feed.entry.length;
+
+    for (var i = 0; i < numTasks; i++) {
+      var newTask = parsedResponse.feed.entry[i].gsx$_cn6ca.$t;
+      var newPara = document.createElement("p");
+      newPara.innerHTML = "🔷 " + newTask;
+      contentBody.appendChild(newPara);
+    }
+  };
 }
