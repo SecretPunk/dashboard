@@ -7,7 +7,7 @@ body {
   font-size: 1.2rem;
   grid-gap: 10px;
   grid-template-columns: 3fr 2fr;
-  grid-template-areas: 'mainHeader mainHeader' 'leftSide rightSide';
+  grid-template-areas: 'mainHeader mainHeader' 'leftSide rightSide' 'footer footer';
   opacity: 0; /* will become 1 on page load */
   position: relative;
   top: -100px; /* will become 0 on page load */
@@ -121,6 +121,22 @@ header {
   padding: 30px; /* to match padding on other sections */
 }
 
+/* FOOTER */
+
+footer {
+  background-color: #90ff90;
+  bottom: 0;
+  font-family: "Noto Sans", sans-serif;
+  font-size: 0.8rem;
+  font-weight: bold;
+  grid-area: footer;
+  opacity: 0.5;
+  padding: 1%;
+  position: fixed;
+  text-align: center;
+  width: 100%;
+}
+
 /* MEDIA QUERIES */
 
 @media only screen and (max-width: 800px) {
@@ -129,6 +145,7 @@ header {
     grid-template-columns: auto;
     grid-template-areas: 'mainHeader'
                          'leftSide'
-                         'rightSide';
+                         'rightSide'
+                         'footer';
   }
 }
