@@ -62,7 +62,7 @@ function setToggles() {
 function getContent(sectionClass, apiURL, sectionFunction) {
 
   var request = new XMLHttpRequest();
-  request.open('GET', apiURL, true);
+  request.open('GET', apiURL);
   request.send();
 
   request.onload = function() {
