@@ -1,5 +1,4 @@
 /* jshint strict: global */
-/* jshint devel: true */
 /* jshint browser: true */
 /* jshint esversion: 6 */
 
@@ -35,11 +34,11 @@ window.onload = function() {
 
   setToggles(); // set the content headings to toggle the content on/off
 
-  getPolitics(); // get politics news from Guardian API and insert into politics section
+  getContent(".politics", G_URL, showPolitics);
 
-  getWeather(); // get weather data from OpenWeatherMap API and insert into weather section
+  getContent(".weather", W_URL, showWeather);
 
-  getTasks(); // get tasks data from Google API and insert into tasks section
+  getContent(".tasks", T_URL, showTasks);
 };
 
 function setToggles() {
@@ -60,90 +59,81 @@ function setToggles() {
   }
 }
 
-function getPolitics() {
+function getContent(sectionClass, apiURL, sectionFunction) {
 
   var request = new XMLHttpRequest();
-  request.open('GET', G_URL, true);
+  request.open('GET', apiURL, true);
   request.send();
 
   request.onload = function() {
+
     var parsedResponse = JSON.parse(this.response);
-
-    var contentBody = document.querySelector(".politics .content-body");
-
-    for (var i = 0; i < G_NUM_RESULTS; i++) {
-      var newAnchor = document.createElement("a");
-      newAnchor.setAttribute("href", parsedResponse.response.results[i].webUrl);
-      newAnchor.innerHTML = parsedResponse.response.results[i].webTitle;
-      contentBody.appendChild(newAnchor);
-    }
+    var contentBody = document.querySelector(sectionClass + " .content-body");
+    sectionFunction(parsedResponse, contentBody);
   };
 }
 
-function getWeather() {
+function showPolitics(parsedResponse, contentBody) {
 
-  var request = new XMLHttpRequest();
-  request.open('GET', W_URL, true);
-  request.send();
+  var results = parsedResponse.response.results;
 
-  request.onload = function() {
-    var parsedResponse = JSON.parse(this.response);
-
-    var contentBody = document.querySelector(".weather .content-body");
-
-    for (var i = 0; i < W_NUM_RESULTS; i++) {
-
-      var oneEntry = document.createElement("p");
-
-      // time
-      var dateStamp = parsedResponse.list[i].dt * 1000;
-      var time = new Date(dateStamp).toTimeString().slice(0, 5);
-      var newTime = document.createElement("span");
-      newTime.innerHTML = time;
-      oneEntry.appendChild(newTime);
-
-      // icon
-      var icon = parsedResponse.list[i].weather[0].icon + "@2x.png";
-      var newImage = document.createElement("img");
-      newImage.setAttribute("src", W_ICON_URL + icon);
-      oneEntry.appendChild(newImage);
-
-      // temperature
-      var temp = parsedResponse.list[i].main.temp;
-      var newForecast = document.createElement("span");
-      newForecast.innerHTML = Math.round(parseFloat(temp));
-      oneEntry.appendChild(newForecast);
-
-      // conditions
-      var conditions = parsedResponse.list[i].weather[0].description;
-      var newConditions = document.createElement("span");
-      newConditions.innerHTML = conditions;
-      oneEntry.appendChild(newConditions);
-
-      // put entry into content body
-      contentBody.appendChild(oneEntry);
-    }
-  };
+  for (var i = 0; i < G_NUM_RESULTS; i++) {
+    var newAnchor = document.createElement("a");
+    newAnchor.setAttribute("href", results[i].webUrl);
+    newAnchor.setAttribute("target", "_blank");
+    newAnchor.innerHTML = results[i].webTitle;
+    contentBody.appendChild(newAnchor);
+  }
 }
 
-function getTasks() {
+function showWeather(parsedResponse, contentBody) {
 
-  var request = new XMLHttpRequest();
-  request.open('GET', T_URL, true);
-  request.send();
+  var forecastList = parsedResponse.list;
 
-  var contentBody = document.querySelector(".tasks .content-body");
+  for (var i = 0; i < W_NUM_RESULTS; i++) {
 
-  request.onload = function() {
+    var oneEntry = document.createElement("p");
+    var oneForecast = forecastList[i];
 
-    var parsedResponse = JSON.parse(this.response);
-    var numTasks = parsedResponse.feed.entry.length;
+    // time
+    var dateStamp = oneForecast.dt * 1000;
+    var time = new Date(dateStamp).toTimeString().slice(0, 5);
+    var newTimeSpan = document.createElement("span");
+    newTimeSpan.innerHTML = time;
+    oneEntry.appendChild(newTimeSpan);
 
-    for (var i = 0; i < numTasks; i++) {
-      var newTask = parsedResponse.feed.entry[i].gsx$_cn6ca.$t;
-      var newPara = document.createElement("p");
-      newPara.innerHTML = "🔷 " + newTask;
-      contentBody.appendChild(newPara);
-    }
-  };
+    // icon
+    var iconFileName = oneForecast.weather[0].icon + "@2x.png";
+    var newImage = document.createElement("img");
+    newImage.setAttribute("src", W_ICON_URL + iconFileName);
+    oneEntry.appendChild(newImage);
+
+    // temperature
+    var temp = oneForecast.main.temp;
+    var newForecastSpan = document.createElement("span");
+    newForecastSpan.innerHTML = Math.round(parseFloat(temp));
+    oneEntry.appendChild(newForecastSpan);
+
+    // conditions
+    var conditions = oneForecast.weather[0].description;
+    var newConditionsSpan = document.createElement("span");
+    newConditionsSpan.innerHTML = conditions;
+    oneEntry.appendChild(newConditionsSpan);
+
+    // put entry into content body
+    contentBody.appendChild(oneEntry);
+  }
+}
+
+function showTasks(parsedResponse, contentBody) {
+
+  var taskList = parsedResponse.feed.entry;
+  var numTasks = taskList.length;
+
+  for (var i = 0; i < numTasks; i++) {
+    var oneTask = taskList[i].gsx$_cn6ca.$t;
+    var newPara = document.createElement("p");
+    newPara.innerHTML = "🔷 " + oneTask;
+    contentBody.appendChild(newPara);
+  }
 }
